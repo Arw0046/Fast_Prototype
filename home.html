@@ -183,7 +183,8 @@
         const selectedShape = card.dataset.shape;
         localStorage.setItem("shapeCounter:selectedShape", selectedShape);
         sessionStorage.removeItem("shapeCounter:lastWin");
-        window.location.href = "challenge.html";
+        const nextPage = selectedShape === "square" ? "squares.html" : "circles.html";
+        window.location.href = nextPage;
       });
     });
   </script>

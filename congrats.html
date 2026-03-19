@@ -172,7 +172,9 @@
     sessionStorage.removeItem(WIN_KEY);
 
     document.getElementById("playAgainBtn").addEventListener("click", () => {
-      window.location.href = "challenge.html";
+      const selectedShape = localStorage.getItem("shapeCounter:selectedShape");
+      const nextPage = selectedShape === "square" ? "squares.html" : "circles.html";
+      window.location.href = nextPage;
     });
 
     document.getElementById("homeBtn").addEventListener("click", () => {
