@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Shape Counter | Home</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=Bricolage+Grotesque:wght@600;800&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg-start: #fff8eb;
+      --bg-end: #d9f4ff;
+      --ink: #101820;
+      --accent: #ff6b35;
+      --accent-soft: #ffd9bf;
+      --card: #ffffffee;
+      --shadow: 0 20px 40px #1018201f;
+      --radius: 20px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: "Space Grotesk", system-ui, sans-serif;
+      color: var(--ink);
+      background: radial-gradient(circle at 85% 10%, #ffc70055, transparent 38%),
+        radial-gradient(circle at 10% 80%, #00a6fb44, transparent 35%),
+        linear-gradient(160deg, var(--bg-start), var(--bg-end));
+      display: grid;
+      place-items: center;
+      padding: 1.5rem;
+    }
+
+    .panel {
+      width: min(920px, 100%);
+      background: var(--card);
+      border: 1px solid #ffffff;
+      box-shadow: var(--shadow);
+      border-radius: var(--radius);
+      padding: clamp(1.3rem, 4vw, 2.5rem);
+      animation: float-in 550ms ease;
+    }
+
+    h1 {
+      margin: 0;
+      font-family: "Bricolage Grotesque", "Space Grotesk", sans-serif;
+      font-size: clamp(1.8rem, 4vw, 3rem);
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+    }
+
+    p {
+      margin: 0.7rem 0 0;
+      max-width: 58ch;
+      font-size: clamp(1rem, 2.3vw, 1.15rem);
+      color: #2f4352;
+    }
+
+    .shape-grid {
+      margin-top: 2rem;
+      display: grid;
+      gap: 1rem;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .shape-card {
+      appearance: none;
+      border: 2px solid #d7e4ed;
+      border-radius: 18px;
+      background: #fff;
+      padding: 1rem;
+      text-align: left;
+      cursor: pointer;
+      transition: transform 180ms ease, border-color 180ms ease, box-shadow 180ms ease;
+    }
+
+    .shape-card:hover,
+    .shape-card:focus-visible {
+      transform: translateY(-4px);
+      border-color: var(--accent);
+      box-shadow: 0 14px 30px #ff6b3524;
+      outline: none;
+    }
+
+    .icon-wrap {
+      width: 74px;
+      height: 74px;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(145deg, #fff7eb, #e9f8ff);
+      border-radius: 14px;
+      margin-bottom: 0.85rem;
+    }
+
+    .icon-circle,
+    .icon-square {
+      width: 42px;
+      height: 42px;
+      background: linear-gradient(145deg, #ff6b35, #ff9f1c);
+    }
+
+    .icon-circle {
+      border-radius: 50%;
+    }
+
+    .icon-square {
+      border-radius: 8px;
+      transform: rotate(8deg);
+    }
+
+    .shape-title {
+      font-weight: 700;
+      font-size: 1.15rem;
+      margin: 0;
+    }
+
+    .shape-text {
+      margin: 0.35rem 0 0;
+      font-size: 0.95rem;
+      color: #405c6d;
+    }
+
+    .note {
+      margin-top: 1rem;
+      font-size: 0.92rem;
+      color: #4b6676;
+      background: var(--accent-soft);
+      border-radius: 12px;
+      padding: 0.75rem 0.9rem;
+      width: fit-content;
+    }
+
+    @keyframes float-in {
+      from {
+        opacity: 0;
+        transform: translateY(12px) scale(0.99);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    @media (max-width: 700px) {
+      .shape-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="panel">
+    <h1>Shape Counter Challenge</h1>
+    <p>Pick one shape to begin. On the next screen, a random number of that shape appears, and you must type how many you counted.</p>
+
+    <section class="shape-grid" aria-label="Shape choices">
+      <button class="shape-card" data-shape="circle" type="button">
+        <div class="icon-wrap"><div class="icon-circle" aria-hidden="true"></div></div>
+        <h2 class="shape-title">Circle</h2>
+        <p class="shape-text">Great for smooth counting practice.</p>
+      </button>
+
+      <button class="shape-card" data-shape="square" type="button">
+        <div class="icon-wrap"><div class="icon-square" aria-hidden="true"></div></div>
+        <h2 class="shape-title">Square</h2>
+        <p class="shape-text">Sharp corners, same counting challenge.</p>
+      </button>
+    </section>
+
+    <p class="note">Tip: Each round uses a new random amount.</p>
+  </main>
+
+  <script>
+    const cards = document.querySelectorAll(".shape-card");
+
+    cards.forEach((card) => {
+      card.addEventListener("click", () => {
+        const selectedShape = card.dataset.shape;
+        localStorage.setItem("shapeCounter:selectedShape", selectedShape);
+        sessionStorage.removeItem("shapeCounter:lastWin");
+        window.location.href = "challenge.html";
+      });
+    });
+  </script>
+</body>
+</html>
